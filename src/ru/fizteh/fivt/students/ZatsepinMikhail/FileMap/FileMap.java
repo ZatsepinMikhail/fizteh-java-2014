@@ -23,41 +23,44 @@ public class FileMap {
     }
 
     public boolean init() {
-        FileChannel inputChannel;
-        try {
-            inputChannel = new FileInputStream(diskFile).getChannel();
+        try (FileInputStream inStream = new FileInputStream(diskFile)) {
+            FileChannel inputChannel;
+            inputChannel = inStream.getChannel();
+            ByteBuffer bufferFromDisk;
+            try {
+                bufferFromDisk =
+                        inputChannel.map(MapMode.READ_ONLY, 0, inputChannel.size());
+            } catch (IOException e) {
+                System.out.println("io exception");
+                return false;
+            }
+            try {
+                while (bufferFromDisk.remaining() > 0) {
+                    byte[] key;
+                    int keySize = bufferFromDisk.getInt();
+                    key = new byte[keySize];
+                    bufferFromDisk.get(key, 0, key.length);
+
+                    byte[] value;
+                    int valueSize = bufferFromDisk.getInt();
+                    value = new byte[valueSize];
+                    bufferFromDisk.get(value, 0, value.length);
+                    try {
+                        dataBase.put(new String(key, "UTF-8"), new String(value, "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        System.out.println("unsupported encoding");
+                        return false;
+                    }
+                }
+            } catch (NullPointerException e) {
+                System.out.println("null pointer exception");
+            }
         } catch (FileNotFoundException e) {
             System.out.println("file not found");
             return false;
-        }
-        ByteBuffer bufferFromDisk;
-        try {
-            bufferFromDisk =
-                    inputChannel.map(MapMode.READ_ONLY, 0, inputChannel.size());
         } catch (IOException e) {
             System.out.println("io exception");
             return false;
-        }
-        try {
-            while (bufferFromDisk.remaining() > 0) {
-                byte[] key;
-                int keySize = bufferFromDisk.getInt();
-                key = new byte[keySize];
-                bufferFromDisk.get(key, 0, key.length);
-
-                byte[] value;
-                int valueSize = bufferFromDisk.getInt();
-                value = new byte[valueSize];
-                bufferFromDisk.get(value, 0, value.length);
-                try {
-                    dataBase.put(new String(key, "UTF-8"), new String(value, "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    System.out.println("unsupported encoding");
-                    return false;
-                }
-            }
-        } catch (NullPointerException e) {
-            System.out.println("null pointer exception");
         }
         return true;
     }
