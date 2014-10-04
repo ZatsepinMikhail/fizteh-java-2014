@@ -4,19 +4,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-public class List extends Command {
+public class List extends CommandFileMap {
     public List() {
         name = "list";
         numberOfArguments = 1;
     }
 
     @Override
-    public boolean run(HashMap<String, String> dataBase, String[] args) {
+    public boolean run(FileMap myFileMap, String[] args) {
         if (args.length != numberOfArguments) {
             System.out.println(name + ": wrong number of arguments");
             return false;
         }
-        Set<String> keySet = dataBase.keySet();
+        Set<String> keySet = myFileMap.keySet();
         Iterator<String> iteratorOverKeySet = keySet.iterator();
         int counter = 0;
         while (iteratorOverKeySet.hasNext()) {
@@ -27,6 +27,7 @@ public class List extends Command {
             ++counter;
         }
         System.out.println();
+        myFileMap
         return true;
     }
 }

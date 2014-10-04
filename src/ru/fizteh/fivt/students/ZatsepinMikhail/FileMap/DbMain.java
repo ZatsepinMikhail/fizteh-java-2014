@@ -9,20 +9,21 @@ package ru.fizteh.fivt.students.ZatsepinMikhail.FileMap;
 public class DbMain {
     public static void main(String[] args) {
         FileMap myFileMap = new FileMap(System.getProperty("db.file"));
-        myFileMap.addCommand(new Put());
-        myFileMap.addCommand(new Get());
-        myFileMap.addCommand(new List());
-        myFileMap.addCommand(new Remove());
         boolean errorOcuried = false;
         if (!myFileMap.init()) {
             errorOcuried = true;
         }
+        Shell<FileMap> myShell = new Shell<>(myFileMap);
+        myShell.addCommand(new Get());
+        myShell.addCommand(new List());
+        myShell.addCommand(new Put());
+        myShell.addCommand(new Remove());
         if (args.length > 0) {
-            if (!myFileMap.packetMode(args)) {
+            if (!myShell.packetMode(args)) {
                 errorOcuried = true;
             }
         } else {
-            if (!myFileMap.interactiveMode()) {
+            if (!myShell.interactiveMode()) {
                 errorOcuried = true;
             }
         }

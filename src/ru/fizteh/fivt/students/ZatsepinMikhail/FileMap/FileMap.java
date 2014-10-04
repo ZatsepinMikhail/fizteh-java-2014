@@ -8,11 +8,28 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Scanner;
 
-public class FileMap {
+public class FileMap implements FileMapState {
     private HashMap<String, String> dataBase;
     private String diskFile;
+
     public FileMap(String newDiskFile) {
         diskFile = newDiskFile;
+    }
+
+    public FileMap getFileMap() {
+        return this;
+    }
+
+    public String get(String key) {
+        return dataBase.get(key);
+    }
+
+    public String remove(String key) {
+        return dataBase.remove(key);
+    }
+
+    public String put(String key, String value) {
+        return dataBase.put(key, value);
     }
 
     public boolean init() {
@@ -62,7 +79,7 @@ public class FileMap {
         try (FileOutputStream outputStream = new FileOutputStream(diskFile)) {
             Set<String> keySet = dataBase.keySet();
             ByteBuffer bufferForSize = ByteBuffer.allocate(4);
-            for (String key: keySet) {
+            for (String key : keySet) {
                 try {
                     byte[] keyByte = key.getBytes("UTF-8");
                     byte[] valueByte = dataBase.get(key).getBytes("UTF-8");
@@ -88,74 +105,4 @@ public class FileMap {
         return true;
     }
 
-    public boolean interactiveMode() {
-        boolean ended = false;
-        boolean errorOccuried = false;
-        try (Scanner inStream = new Scanner(System.in)) {
-            String[] parsedCommands;
-            String[] parsedArguments;
-            System.out.print("$ ");
-            while (!ended) {
-                if (inStream.hasNextLine()) {
-                    parsedCommands = inStream.nextLine().split(";|\n");
-                } else {
-                    continue;
-                }
-                for (String oneCommand : parsedCommands) {
-                    parsedArguments = oneCommand.split("\\s+");
-                    if (parsedArguments[0].equals("exit")) {
-                        ended = true;
-                        break;
-                    }
-                    Command commandToExecute = fileMapCommands.get(parsedArguments[0]);
-                    if (commandToExecute != null) {
-                        if (!commandToExecute.run(dataBase, parsedArguments)) {
-                            errorOccuried = true;
-                        } else {
-                            load();
-                        }
-                    } else {
-                        System.out.println(parsedArguments[0] + ": command not found");
-                        errorOccuried = true;
-                    }
-                }
-                if (!ended) {
-                    System.out.print("$ ");
-                }
-            }
-        }
-        return !errorOccuried;
-    }
-
-    public boolean packetMode(String[] arguments) {
-
-        String[] parsedCommands;
-        String[] parsedArguments;
-        String commandLine = arguments[0];
-        boolean errorOccuried = false;
-
-        for (int i = 1; i < arguments.length; ++i) {
-            commandLine = commandLine + " " + arguments[i];
-        }
-
-        parsedCommands = commandLine.split(";|\n");
-        for (String oneCommand : parsedCommands) {
-            parsedArguments = oneCommand.trim().split("\\s+");
-            if (parsedArguments[0].equals("exit")) {
-                return true;
-            }
-            Command commandToExecute = fileMapCommands.get(parsedArguments[0]);
-            if (commandToExecute != null) {
-                if (!commandToExecute.run(dataBase, parsedArguments)) {
-                    errorOccuried = true;
-                } else {
-                    load();
-                }
-            } else {
-                System.out.println(parsedArguments[0] + ": command not found");
-                errorOccuried = true;
-            }
-        }
-        return !errorOccuried;
-    }
 }

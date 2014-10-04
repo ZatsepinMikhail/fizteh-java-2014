@@ -3,28 +3,26 @@ package ru.fizteh.fivt.students.ZatsepinMikhail.FileMap;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Shell<E> {
-    private HashMap<String, Command> shellCommands;
+public class Shell<T> {
+    private HashMap<String, Command<T>> shellCommands;
 
-    private E objectForShell;
-    public Shell(E obj) {
+    private T objectForShell;
+    public Shell(T obj) {
         shellCommands = new HashMap();
         objectForShell = obj;
     }
 
-
-    public void addCommand(final Command newCommand) {
+    public void addCommand(final Command<T> newCommand) {
         shellCommands.put(newCommand.toString(), newCommand);
     }
 
     public boolean interactiveMode() {
-        System.out.print("$ ");
         boolean ended = false;
         boolean errorOccuried = false;
-
         try (Scanner inStream = new Scanner(System.in)) {
             String[] parsedCommands;
             String[] parsedArguments;
+            System.out.print("$ ");
             while (!ended) {
                 if (inStream.hasNextLine()) {
                     parsedCommands = inStream.nextLine().split(";|\n");
@@ -39,7 +37,7 @@ public class Shell<E> {
                     }
                     Command commandToExecute = shellCommands.get(parsedArguments[0]);
                     if (commandToExecute != null) {
-                        if (!commandToExecute.run(parsedArguments)) {
+                        if (!commandToExecute.run(objectForShell, parsedArguments)) {
                             errorOccuried = true;
                         }
                     } else {
@@ -55,7 +53,7 @@ public class Shell<E> {
         return !errorOccuried;
     }
 
-    public boolean packetMode(final String[] arguments) {
+    public boolean packetMode(String[] arguments) {
 
         String[] parsedCommands;
         String[] parsedArguments;
@@ -74,7 +72,7 @@ public class Shell<E> {
             }
             Command commandToExecute = shellCommands.get(parsedArguments[0]);
             if (commandToExecute != null) {
-                if (!commandToExecute.run(parsedArguments)) {
+                if (!commandToExecute.run(objectForShell, parsedArguments)) {
                     errorOccuried = true;
                 }
             } else {
