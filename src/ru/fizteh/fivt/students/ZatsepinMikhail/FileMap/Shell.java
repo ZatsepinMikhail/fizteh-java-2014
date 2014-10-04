@@ -1,15 +1,17 @@
-package ru.fizteh.fivt.students.ZatsepinMikhail.shell;
+package ru.fizteh.fivt.students.ZatsepinMikhail.FileMap;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Shell {
-
+public class Shell<E> {
     private HashMap<String, Command> shellCommands;
 
-    public Shell() {
+    private E objectForShell;
+    public Shell(E obj) {
         shellCommands = new HashMap();
+        objectForShell = obj;
     }
+
 
     public void addCommand(final Command newCommand) {
         shellCommands.put(newCommand.toString(), newCommand);

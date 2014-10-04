@@ -10,16 +10,9 @@ import java.util.Scanner;
 
 public class FileMap {
     private HashMap<String, String> dataBase;
-    private HashMap<String, Command> fileMapCommands;
     private String diskFile;
     public FileMap(String newDiskFile) {
-        dataBase = new HashMap<>();
-        fileMapCommands = new HashMap<>();
         diskFile = newDiskFile;
-    }
-
-    public void addCommand(Command newCommand) {
-        fileMapCommands.put(newCommand.toString(), newCommand);
     }
 
     public boolean init() {
