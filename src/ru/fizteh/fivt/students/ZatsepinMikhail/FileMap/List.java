@@ -1,6 +1,5 @@
 package ru.fizteh.fivt.students.ZatsepinMikhail.FileMap;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -26,8 +25,9 @@ public class List extends CommandFileMap {
             System.out.print(iteratorOverKeySet.next());
             ++counter;
         }
-        System.out.println();
-        myFileMap
+        if (counter > 0) {
+            System.out.println();
+        }
         return true;
     }
 }

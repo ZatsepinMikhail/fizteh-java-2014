@@ -6,18 +6,15 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.Scanner;
+import java.util.HashSet;
 
-public class FileMap implements FileMapState {
+public class FileMap {
     private HashMap<String, String> dataBase;
     private String diskFile;
 
     public FileMap(String newDiskFile) {
         diskFile = newDiskFile;
-    }
-
-    public FileMap getFileMap() {
-        return this;
+        dataBase = new HashMap<>();
     }
 
     public String get(String key) {
@@ -30,6 +27,10 @@ public class FileMap implements FileMapState {
 
     public String put(String key, String value) {
         return dataBase.put(key, value);
+    }
+
+    public Set<String> keySet() {
+        return dataBase.keySet();
     }
 
     public boolean init() {
@@ -75,9 +76,17 @@ public class FileMap implements FileMapState {
         return true;
     }
 
-    public boolean load() {
-        try (FileOutputStream outputStream = new FileOutputStream(diskFile)) {
-            Set<String> keySet = dataBase.keySet();
+    public boolean load(String addKey) {
+        HashSet<String> keySet = new HashSet<>();
+        boolean appendFile = true;
+        if (addKey == null) {
+            appendFile = false;
+            keySet = (HashSet) dataBase.keySet();
+        } else {
+            keySet.add(addKey);
+        }
+
+        try (FileOutputStream outputStream = new FileOutputStream(diskFile, appendFile)) {
             ByteBuffer bufferForSize = ByteBuffer.allocate(4);
             for (String key : keySet) {
                 try {
@@ -104,5 +113,4 @@ public class FileMap implements FileMapState {
         }
         return true;
     }
-
 }

@@ -8,11 +8,11 @@ public class Shell<T> {
 
     private T objectForShell;
     public Shell(T obj) {
-        shellCommands = new HashMap();
+        shellCommands = new HashMap<>();
         objectForShell = obj;
     }
 
-    public void addCommand(final Command<T> newCommand) {
+    public void addCommand(Command<T> newCommand) {
         shellCommands.put(newCommand.toString(), newCommand);
     }
 
@@ -35,7 +35,7 @@ public class Shell<T> {
                         ended = true;
                         break;
                     }
-                    Command commandToExecute = shellCommands.get(parsedArguments[0]);
+                    Command<T> commandToExecute = shellCommands.get(parsedArguments[0]);
                     if (commandToExecute != null) {
                         if (!commandToExecute.run(objectForShell, parsedArguments)) {
                             errorOccuried = true;
@@ -70,7 +70,7 @@ public class Shell<T> {
             if (parsedArguments[0].equals("exit")) {
                 return true;
             }
-            Command commandToExecute = shellCommands.get(parsedArguments[0]);
+            Command<T> commandToExecute = shellCommands.get(parsedArguments[0]);
             if (commandToExecute != null) {
                 if (!commandToExecute.run(objectForShell, parsedArguments)) {
                     errorOccuried = true;
