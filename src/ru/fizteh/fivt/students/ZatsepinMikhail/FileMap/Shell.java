@@ -28,10 +28,13 @@ public class Shell<T> {
                 if (inStream.hasNextLine()) {
                     parsedCommands = inStream.nextLine().split(";|\n");
                 } else {
-                    continue;
+                    break;
                 }
                 for (String oneCommand : parsedCommands) {
-                    parsedArguments = oneCommand.split("\\s+");
+                    parsedArguments = oneCommand.trim().split("\\s+");
+                    if (parsedArguments.length == 0 || parsedArguments[0].equals("")) {
+                        continue;
+                    }
                     if (parsedArguments[0].equals("exit")) {
                         ended = true;
                         break;
@@ -66,10 +69,16 @@ public class Shell<T> {
         }
 
         parsedCommands = commandLine.split(";|\n");
+        if (parsedCommands.length == 0) {
+            return true;
+        }
         for (String oneCommand : parsedCommands) {
             parsedArguments = oneCommand.trim().split("\\s+");
+            if (parsedArguments.length == 0 || parsedArguments[0].equals("")) {
+                continue;
+            }
             if (parsedArguments[0].equals("exit")) {
-                return true;
+                return !errorOccuried;
             }
             Command<T> commandToExecute = shellCommands.get(parsedArguments[0]);
             if (commandToExecute != null) {
@@ -84,3 +93,4 @@ public class Shell<T> {
         return !errorOccuried;
     }
 }
+

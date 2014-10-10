@@ -17,9 +17,9 @@ public class DbMain {
             System.exit(1);
         }
         FileMap myFileMap = new FileMap(dataBasePath);
-        boolean errorOcuried = false;
+        boolean errorOccuried = false;
         if (!myFileMap.init()) {
-            errorOcuried = true;
+            errorOccuried = true;
         }
 
         Shell<FileMap> myShell = new Shell<>(myFileMap);
@@ -30,14 +30,14 @@ public class DbMain {
 
         if (args.length > 0) {
             if (!myShell.packetMode(args)) {
-                errorOcuried = true;
+                errorOccuried = true;
             }
         } else {
             if (!myShell.interactiveMode()) {
-                errorOcuried = true;
+                errorOccuried = true;
             }
         }
-        if (errorOcuried) {
+        if (errorOccuried) {
             System.exit(2);
         } else {
             System.exit(0);
