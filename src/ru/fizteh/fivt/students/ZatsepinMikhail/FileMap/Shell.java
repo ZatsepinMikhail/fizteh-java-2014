@@ -17,12 +17,13 @@ public class Shell<T> {
     }
 
     public boolean interactiveMode() {
+        System.out.print("$ ");
         boolean ended = false;
         boolean errorOccuried = false;
+
         try (Scanner inStream = new Scanner(System.in)) {
             String[] parsedCommands;
             String[] parsedArguments;
-            System.out.print("$ ");
             while (!ended) {
                 if (inStream.hasNextLine()) {
                     parsedCommands = inStream.nextLine().split(";|\n");
@@ -53,7 +54,7 @@ public class Shell<T> {
         return !errorOccuried;
     }
 
-    public boolean packetMode(String[] arguments) {
+    public boolean packetMode(final String[] arguments) {
 
         String[] parsedCommands;
         String[] parsedArguments;

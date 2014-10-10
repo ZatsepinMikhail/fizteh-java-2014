@@ -5,8 +5,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 public class FileMap {
     private HashMap<String, String> dataBase;
@@ -77,31 +77,30 @@ public class FileMap {
     }
 
     public boolean load(String addKey) {
-        HashSet<String> keySet = new HashSet<>();
-        boolean appendFile = true;
-        if (addKey == null) {
-            appendFile = false;
-            keySet = (HashSet) dataBase.keySet();
-        } else {
+        HashSet<String> keySet = new HashSet<>(dataBase.keySet());
+        boolean appendFile = false;
+        if (addKey != null) {
+            appendFile = true;
             keySet.add(addKey);
         }
-
         try (FileOutputStream outputStream = new FileOutputStream(diskFile, appendFile)) {
             ByteBuffer bufferForSize = ByteBuffer.allocate(4);
             for (String key : keySet) {
-                try {
-                    byte[] keyByte = key.getBytes("UTF-8");
-                    byte[] valueByte = dataBase.get(key).getBytes("UTF-8");
-                    outputStream.write(bufferForSize.putInt(0, keyByte.length).array());
-                    outputStream.write(keyByte);
-                    outputStream.write(bufferForSize.putInt(0, valueByte.length).array());
-                    outputStream.write(valueByte);
-                } catch (UnsupportedEncodingException e) {
-                    System.out.println("unsupported encoding");
-                    return false;
-                } catch (IOException e) {
-                    System.out.println("io exception");
-                    return false;
+                if (!appendFile | key.equals(addKey)) {
+                    try {
+                        byte[] keyByte = key.getBytes("UTF-8");
+                        byte[] valueByte = dataBase.get(key).getBytes("UTF-8");
+                        outputStream.write(bufferForSize.putInt(0, keyByte.length).array());
+                        outputStream.write(keyByte);
+                        outputStream.write(bufferForSize.putInt(0, valueByte.length).array());
+                        outputStream.write(valueByte);
+                    } catch (UnsupportedEncodingException e) {
+                        System.out.println("unsupported encoding");
+                        return false;
+                    } catch (IOException e) {
+                        System.out.println("io exception");
+                        return false;
+                    }
                 }
             }
         } catch (FileNotFoundException e) {
