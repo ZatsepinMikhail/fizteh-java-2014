@@ -46,16 +46,35 @@ public class FileMap {
                 return false;
             }
             try {
-                while (bufferFromDisk.remaining() > 0) {
+                while (bufferFromDisk.hasRemaining()) {
                     byte[] key;
-                    int keySize = bufferFromDisk.getInt();
-                    key = new byte[keySize];
-                    bufferFromDisk.get(key, 0, key.length);
-
                     byte[] value;
-                    int valueSize = bufferFromDisk.getInt();
-                    value = new byte[valueSize];
-                    bufferFromDisk.get(value, 0, value.length);
+                    int keySize;
+                    int valueSize;
+                    if (bufferFromDisk.remaining() >= 4) {
+                        keySize = bufferFromDisk.getInt();
+                        key = new byte[keySize];
+                    } else {
+                        throw new BadFileException();
+                    }
+
+                    if (bufferFromDisk.remaining() >= keySize) {
+                        bufferFromDisk.get(key, 0, key.length);
+                    } else {
+                        throw new BadFileException();
+                    }
+
+                    if (bufferFromDisk.remaining() >= 4) {
+                        valueSize = bufferFromDisk.getInt();
+                        value = new byte[valueSize];
+                    } else {
+                        throw new BadFileException();
+                    }
+                    if (bufferFromDisk.remaining() >= valueSize) {
+                        bufferFromDisk.get(value, 0, value.length);
+                    } else {
+                        throw new BadFileException();
+                    }
                     try {
                         dataBase.put(new String(key, "UTF-8"), new String(value, "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
@@ -68,6 +87,9 @@ public class FileMap {
             }
         } catch (FileNotFoundException e) {
             System.out.println("file not found");
+            return false;
+        } catch (BadFileException e) {
+            System.out.println("problems with database file");
             return false;
         } catch (IOException e) {
             System.out.println("io exception");
