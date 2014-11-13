@@ -150,9 +150,9 @@ public class TestTable {
         assertTrue(testTable.rollback() == 0);
         testTable.put(key, newValue);
         testTable.remove(key);
-        assertTrue(testTable.commit() == size - 2);
+        assertTrue(testTable.commit() == 0);
         testTable.put(key + 1, newValue + 2);
-        assertTrue(testTable.commit() == size - 2);
+        assertTrue(testTable.commit() == 1);
     }
 
     @Test
