@@ -1,4 +1,4 @@
-package ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap;
+package ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap.MultiFileHashMapPackage;
 
 import ru.fizteh.fivt.students.ZatsepinMikhail.FileMap.Command;
 

@@ -1,4 +1,4 @@
-package ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap;
+package ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap.MultiFileHashMapPackage;
 
 public class CommandShowTables extends CommandMultiFileHashMap {
     public CommandShowTables() {

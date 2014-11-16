@@ -1,4 +1,6 @@
-package ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap;
+package ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap.MultiFileHashMapPackage;
+
+import ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap.FileMapPackage.FileMap;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -8,7 +10,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import ru.fizteh.fivt.students.ZatsepinMikhail.FileMap.FileMap;
+
 
 public class MFileHashMap {
     private String dataBaseDirectory;

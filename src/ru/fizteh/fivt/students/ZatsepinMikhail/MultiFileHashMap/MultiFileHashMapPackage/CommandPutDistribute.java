@@ -1,7 +1,7 @@
-package ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap;
+package ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap.MultiFileHashMapPackage;
 
-import ru.fizteh.fivt.students.ZatsepinMikhail.FileMap.FileMap;
-import ru.fizteh.fivt.students.ZatsepinMikhail.FileMap.Put;
+import ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap.FileMapPackage.FileMap;
+import ru.fizteh.fivt.students.ZatsepinMikhail.MultiFileHashMap.FileMapPackage.Put;
 
 public class CommandPutDistribute extends CommandMultiFileHashMap {
     public CommandPutDistribute() {
