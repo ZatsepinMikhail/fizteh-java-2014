@@ -1,4 +1,4 @@
-package ru.fizteh.fivt.students.ZatsepinMikhail.JUnit;
+package ru.fizteh.fivt.students.ZatsepinMikhail.JUnit.FileMapPackage;
 
 public class FmCommandRemove extends CommandFileMap {
     public FmCommandRemove() {

@@ -1,4 +1,4 @@
-package ru.fizteh.fivt.students.ZatsepinMikhail.JUnit;
+package ru.fizteh.fivt.students.ZatsepinMikhail.JUnit.FileMapPackage;
 
 import java.util.List;
 

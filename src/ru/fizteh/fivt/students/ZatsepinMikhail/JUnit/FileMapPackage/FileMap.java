@@ -1,4 +1,4 @@
-package ru.fizteh.fivt.students.ZatsepinMikhail.JUnit;
+package ru.fizteh.fivt.students.ZatsepinMikhail.JUnit.FileMapPackage;
 
 import ru.fizteh.fivt.storage.strings.Table;
 import ru.fizteh.fivt.students.ZatsepinMikhail.FileMap.BadFileException;
