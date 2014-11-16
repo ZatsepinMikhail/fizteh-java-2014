@@ -1,6 +1,7 @@
 package ru.fizteh.fivt.students.ZatsepinMikhail.JUnit;
 
 import ru.fizteh.fivt.storage.strings.Table;
+import ru.fizteh.fivt.students.ZatsepinMikhail.FileMap.BadFileException;
 
 import java.io.*;
 import java.nio.ByteBuffer;
