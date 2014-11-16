@@ -57,6 +57,7 @@ public class Main {
 
 
     public static void setUpShell(Shell<MFileHashMap> myShell) {
+
         myShell.addCommand(new CommandCreate());
         myShell.addCommand(new CommandDrop());
         myShell.addCommand(new CommandUse());
