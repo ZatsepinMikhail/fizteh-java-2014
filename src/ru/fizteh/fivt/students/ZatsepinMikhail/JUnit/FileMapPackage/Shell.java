@@ -1,4 +1,4 @@
-package ru.fizteh.fivt.students.ZatsepinMikhail.JUnit;
+package ru.fizteh.fivt.students.ZatsepinMikhail.JUnit.FileMapPackage;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -99,4 +99,3 @@ public class Shell<T> {
         return !errorOccuried;
     }
 }
-
