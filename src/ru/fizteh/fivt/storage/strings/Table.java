@@ -70,3 +70,4 @@ public interface Table {
      */
     List<String> list();
 }
+
